@@ -77,10 +77,13 @@ class Chess_Env:
         return self.Board, X, allowed_a
         
     
-    def OneStep(self,a_agent):
+    def OneStep(self,a_agent,adapted_reward=False):
         
         # SET REWARD TO ZERO IF GAME IS NOT ENDED
-        R=0
+        if adapted_reward:
+            R=-0.5
+        else:
+            R=0
         # SET Done TO ZERO (GAME NOT ENDED)
         Done=0
         
@@ -132,7 +135,10 @@ class Chess_Env:
             # King 2 has no freedom and it is checked
             # Checkmate and collect reward
             Done = 1       # The epsiode ends
-            R = 1          # Reward for checkmate
+            if adapted_reward:
+                R = 10          # Reward for checkmate
+            else:
+                R = 1
             allowed_a=[]   # Allowed_a set to nothing (end of the episode)
             X=[]           # Features set to nothing (end of the episode)
         
